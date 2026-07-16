@@ -20,26 +20,29 @@
 .hero-copy .lede{ margin: 24px 0 34px; }
 .hero-cta{ display:flex; gap: 16px; flex-wrap:wrap; }
 
-.hero-coil-wrap{
-  position: relative; display:flex; align-items:center; justify-content:center;
-  min-height: 420px;
+/* full-bleed slideshow background hero */
+.hero-slideshow{ justify-content:flex-start; }
+.hero-slides{ position:absolute; top:0; left:0; right:0; bottom:0; z-index:0; }
+.hero-slide{
+  position:absolute; top:0; left:0; right:0; bottom:0; opacity:0;
+  transition: opacity 1.8s var(--ease);
 }
-.hero-coil-wrap svg{ width: 100%; max-width: 460px; height:auto; }
-#hero-coil-path{
-  stroke-dasharray: 2000;
-  stroke-dashoffset: 2000;
-  animation: draw 2.6s var(--ease) 0.2s forwards;
+.hero-slide.active{ opacity:1; }
+.hero-scrim{
+  position:absolute; top:0; left:0; right:0; bottom:0; z-index:1;
+  background: linear-gradient(90deg, rgba(43,36,32,0.72) 0%, rgba(43,36,32,0.48) 48%, rgba(43,36,32,0.22) 78%);
 }
-@keyframes draw{ to{ stroke-dashoffset: 0; } }
-@media (prefers-reduced-motion: reduce){ #hero-coil-path{ animation: none; stroke-dashoffset:0; } }
-
-.hero-photo-frame{
-  position:absolute; width: 62%; aspect-ratio: 4/5;
-  border-radius: var(--radius-organic);
-  overflow:hidden; box-shadow: 0 30px 60px -20px rgba(62,39,35,0.4);
-  border: 6px solid var(--paper);
+.hero-slide-note{
+  position:absolute; top:96px; right:clamp(20px,5vw,56px); z-index:2;
+  color: rgba(245,235,224,0.6);
 }
-.hero-photo-frame img{ width:100%; height:100%; object-fit:cover; }
+.hero-grid-full{ position:relative; z-index:2; width:100%; padding: 40px 0; display:flex; justify-content:center; }
+.hero-grid-full .hero-copy{ max-width: 640px; text-align:center; margin: 0 auto; display:flex; flex-direction:column; align-items:center; }
+.hero-grid-full .hero-copy h1{ color: var(--cream); }
+.hero-grid-full .hero-copy .eyebrow{ justify-content:center; }
+.hero-grid-full .hero-cta{ justify-content:center; }
+.hero-grid-full .hero-cta .btn.on-dark{ border-color: var(--cream); color: var(--cream); }
+.hero-grid-full .hero-cta .btn.on-dark:hover{ background: var(--cream); color: var(--earth); }
 
 .scroll-cue{
   position:absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -77,6 +80,37 @@
 .feature-card h3{ margin: 14px 0 10px; }
 .feature-card p{ font-size: 0.94rem; opacity:0.85; margin:0; }
 
+/* ---------- EXPERIENCES MOSAIC (home, 3 + 2 centered) ---------- */
+.experience-grid{
+  display:flex; flex-wrap:wrap; justify-content:center; gap: 26px;
+}
+.experience-card{
+  display:block; flex: 1 1 320px; max-width: 340px;
+  padding: 34px 28px; border-radius: 26px;
+  background: var(--paper); border: 1px solid rgba(62,39,35,0.08);
+  transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.experience-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -20px rgba(62,39,35,0.3);
+  border-color: rgba(180,102,63,0.3);
+}
+.experience-card .num{ font-family: var(--font-mono); color: var(--clay); font-size:0.85rem; }
+.experience-card h3{ margin: 14px 0 10px; }
+.experience-card p{ font-size: 0.94rem; opacity:0.85; margin:0; color: var(--ink); }
+.experience-card .card-explore{
+  display:inline-flex; align-items:center; gap: 6px;
+  margin-top: 16px; font-weight: 600; font-size: 0.86rem; color: var(--clay-deep);
+  opacity: 0; transform: translateY(6px);
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.experience-card .card-explore svg{ width:14px; height:14px; transition: transform 0.3s var(--ease); }
+.experience-card:hover .card-explore{ opacity:1; transform: translateY(0); }
+.experience-card:hover .card-explore svg{ transform: translateX(3px); }
+@media (max-width: 560px){
+  .experience-card{ flex-basis: 100%; max-width: 440px; }
+}
+
 /* ---------- OFFSET / STAGGERED SHOWCASE (home gallery teaser) ---------- */
 .stagger-row{
   display:grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
@@ -101,7 +135,7 @@
 .piece-caption .p-spec{ font-family: var(--font-mono); font-size: 0.66rem; opacity:0.8; }
 
 /* ---------- MASONRY CATALOG ---------- */
-.catalog-toolbar{
+.gallery-toolbar{
   display:flex; gap: 12px; flex-wrap:wrap; align-items:center; margin-bottom: 40px;
 }
 .filter-chip{

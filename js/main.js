@@ -2,12 +2,28 @@
 document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
+  const overlay = document.querySelector('.nav-overlay');
+
+  const closeMenu = () => {
+    links.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  const openMenu = () => {
+    links.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+  };
+
   if (toggle && links) {
     toggle.addEventListener('click', () => {
-      links.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', links.classList.contains('open'));
+      links.classList.contains('open') ? closeMenu() : openMenu();
     });
-    links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+    if (overlay) overlay.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeMenu();
+    });
   }
 
   // ===== Scroll reveal =====
@@ -41,6 +57,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
     });
+  }
+
+  // ===== Hero background slideshow =====
+  const heroSlides = document.querySelectorAll('.hero-slide');
+  if (heroSlides.length > 1) {
+    let currentSlide = 0;
+    setInterval(() => {
+      heroSlides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % heroSlides.length;
+      heroSlides[currentSlide].classList.add('active');
+    }, 4500);
   }
 
   // ===== Contact form (static demo — no backend) =====
